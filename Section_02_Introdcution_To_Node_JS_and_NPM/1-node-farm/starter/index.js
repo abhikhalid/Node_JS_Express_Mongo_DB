@@ -2,6 +2,11 @@ const fs = require('fs');
 const http = require('http');
 const url = require('url');
 
+//top level code
+//gets executed once when the file is loaded
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
+
 //SERVER
 const server = http.createServer((req, res) => {
     // console.log(req.url);
@@ -15,14 +20,8 @@ const server = http.createServer((req, res) => {
         res.end('This is the PRODUCT');
     }
     else if (pathName === '/api') {
-        fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data) => {
-            const productData = JSON.parse(data);
-            res.writeHead(200, {
-                'Content-type': 'application/json'
-            });
-            res.end(JSON.stringify(productData));
-        });
-
+        res.writeHead(200,{'Content-type': 'application/json'});
+        res.end(data);
     }
     else {
         // res.writeHead(404);
