@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.10"
+  },
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "Learning Express",
+  "main": "yes",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Khalid_Mahmud",
+  "license": "ISC"
+}
