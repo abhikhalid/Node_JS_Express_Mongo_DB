@@ -1,5 +1,6 @@
 const express = require('express');
-const { getAllTours, createTour, getTour, updateTour, deleteTour } = require('../controllers/tourController');
+const { getAllTours, createTour, getTour, updateTour, deleteTour, checkID } = require('../controllers/tourController');
+const { route } = require('express/lib/application');
 
 
 
@@ -7,6 +8,8 @@ const { getAllTours, createTour, getTour, updateTour, deleteTour } = require('..
 
 
 const router = express.Router(); //We have created router and save into this variable.
+
+router.param('id', checkID);
 
 router
     .route('/')
