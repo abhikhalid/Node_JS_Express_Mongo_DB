@@ -7,8 +7,9 @@ const userRouter = require('./routes/userRoutes'); // Importing the user routes
 const app = express();
 
 // 1) MIDDLEWARES
-
-app.use(morgan('dev')); // Morgan is a HTTP request logger middleware for Node.js. It simplifies the process of logging requests to your application, making it easier to debug and monitor your app's performance.
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev')); // Morgan is a HTTP request logger middleware for Node.js. It simplifies the process of logging requests to your application, making it easier to debug and monitor your app's performance.
+}
 
 //express.json() is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 
