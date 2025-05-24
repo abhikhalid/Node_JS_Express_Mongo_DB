@@ -27,25 +27,9 @@ app.use((req, res, next) => {
 
 
 // 2) Route Handlers
-
-
-
-
 //3) Routes
-
-
-
-
-
 
 app.use('/api/v1/tours', tourRouter); //connecting 'tourRouter' to the main application.
 app.use('/api/v1/users', userRouter); //connecting 'userRouter' to the main application.    
 
-//4) START SERVER
-const port = 3000;
-
-app.listen(port, () => {
-    console.log(`App running on port ${port}...`);
-});
-
-
+module.exports = app; // Exporting the app so that it can be used in other files, such as server.js
