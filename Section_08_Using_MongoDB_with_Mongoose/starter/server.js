@@ -1,9 +1,24 @@
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-// console.log(app.get('env'));
-dotenv.config({ path: "./config.env" }); //read environment variables from config.env file and save them into node js environment variable
+
 const app = require("./app");
 
+// console.log(app.get('env'));
+dotenv.config({ path: "./config.env" }); //read environment variables from config.env file and save them into node js environment variable
 
+const DB = process.env.DATABASE.replace(
+    "<PASSWORD>",
+    process.env.DATABASE_PASSWORD
+);
+
+mongoose.connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+}).then((con) => {
+    console.log(con.connection);
+    console.log("DB connection successful!");
+});
 
 
 // console.log(process.env);

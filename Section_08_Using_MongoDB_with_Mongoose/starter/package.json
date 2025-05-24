@@ -2,6 +2,7 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
+    "mongoose": "^5.13.23",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10"
   },
@@ -10,7 +11,7 @@
   "description": "Learning Express",
   "main": "yes",
   "scripts": {
-    "start:dev": "nodemon server.js",
+    "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
