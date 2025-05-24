@@ -163,44 +163,38 @@ const deleteUser = (req, res) => {
 
 //3) Routes
 
-// app.get('/api/v1/tours', getAllTours);
 
 
-// app.get('/api/v1/tours/:id', getTour);
+const tourRouter = express.Router(); //We have created router and save into this variable.
+const userRouter = express.Router(); //We have created router and save into this variable.
 
-
-// app.post('/api/v1/tours', createTour);
-
-// app.patch('/api/v1/tours/:id', updateTour);
-
-
-// app.delete('/api/v1/tours/:id', deleteTour);
-
-app.route('/api/v1/tours')
+tourRouter
+    .route('/')
     .get(getAllTours)
     .post(createTour);
 
 
-// app.use((req, res, next) => {
-//     console.log('Hello from the middleware 👋')
-//     next(); // call next() to pass control to the next middleware function in the stack
-//     });
-
-app.route('/api/v1/tours/:id')
+tourRouter
+    .route('/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
 
 
-app
-    .route('/api/v1/users')
+userRouter
+    .route('/')
     .get(getAllUsers)
     .post(createUser);
 
-app.route('/api/v1/users/:id')
+userRouter
+    .route('/:id')
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser);
+
+
+app.use('/api/v1/tours', tourRouter); //connecting 'tourRouter' to the main application.
+app.use('/api/v1/users', userRouter); //connecting 'userRouter' to the main application.    
 
 //4) START SERVER
 const port = 3000;
