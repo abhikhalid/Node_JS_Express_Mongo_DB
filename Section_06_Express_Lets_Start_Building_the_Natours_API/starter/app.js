@@ -1,15 +1,20 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
+
 
 const app = express();
+
+// 1) MIDDLEWARES
+
+app.use(morgan('dev')); // Morgan is a HTTP request logger middleware for Node.js. It simplifies the process of logging requests to your application, making it easier to debug and monitor your app's performance.
 
 //express.json() is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 
 //Middleware is basically just a function that can modify the incoming request data.
-
 app.use(express.json()); // Middleware to parse JSON data
 
-app.use((req, res, next) => { 
+app.use((req, res, next) => {
     console.log('Hello from the middleware 👋')
     next(); // call next() to pass control to the next middleware function in the stack
 });
@@ -26,6 +31,7 @@ const tours = JSON.parse(
 );
 
 
+// 2) Route Handlers
 const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
@@ -119,6 +125,9 @@ const deleteTour = (req, res) => {
     });
 };
 
+
+//3) Routes
+
 // app.get('/api/v1/tours', getAllTours);
 
 
@@ -136,7 +145,7 @@ app.route('/api/v1/tours')
     .get(getAllTours)
     .post(createTour);
 
-    
+
 // app.use((req, res, next) => {
 //     console.log('Hello from the middleware 👋')
 //     next(); // call next() to pass control to the next middleware function in the stack
@@ -148,6 +157,7 @@ app.route('/api/v1/tours/:id')
     .delete(deleteTour);
 
 
+//4) START SERVER
 const port = 3000;
 
 app.listen(port, () => {
