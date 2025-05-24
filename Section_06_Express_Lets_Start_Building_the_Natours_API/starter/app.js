@@ -43,7 +43,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
 
     const id = req.params.id * 1; // convert the string to a number
 
-    if(id > tours.length) {
+    if (id > tours.length) {
         return res.status(404).json({
             status: 'fail',
             message: 'Invalid ID'
@@ -81,7 +81,7 @@ app.post('/api/v1/tours', (req, res) => {
 
 app.patch('/api/v1/tours/:id', (req, res) => {
     const id = req.params.id * 1; // convert the string to a number
-    if(id > tours.length) {
+    if (id > tours.length) {
         return res.status(404).json({
             status: 'fail',
             message: 'Invalid ID'
@@ -101,6 +101,26 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     });
 });
 
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+    const id = req.params.id * 1; // convert the string to a number
+    if (id > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    const tourIndex = tours.findIndex(tour => tour.id === id); // find the index of the tour with the given id
+    tours.splice(tourIndex, 1); // remove the tour from the array
+
+    fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
+        res.status(204).json({
+            status: 'success',
+            data: null,
+        });
+    });
+});
 
 
 const port = 3000;
