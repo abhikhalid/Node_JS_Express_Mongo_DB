@@ -38,6 +38,30 @@ app.get('/api/v1/tours', (req, res) => {
 });
 
 
+app.get('/api/v1/tours/:id', (req, res) => {
+    console.log(req.params); // req.params is an object that contains the route parameters. In this case, it will contain the id parameter.
+
+    const id = req.params.id * 1; // convert the string to a number
+
+    if(id > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+
+    const tour = tours.find(tour => tour.id === id); // find the tour with the given id
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tour: tour // +req.params.id converts the string to a number
+        }
+    });
+});
+
+
 app.post('/api/v1/tours', (req, res) => {
     // console.log(req.body); // body is the available now because we used that middleware.
     const newId = tours[tours.length - 1].id + 1;
