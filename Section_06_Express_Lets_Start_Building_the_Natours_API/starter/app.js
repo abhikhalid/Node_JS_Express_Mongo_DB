@@ -14,6 +14,7 @@ app.use(morgan('dev')); // Morgan is a HTTP request logger middleware for Node.j
 
 //Middleware is basically just a function that can modify the incoming request data.
 app.use(express.json()); // Middleware to parse JSON data
+app.use(express.static(`${__dirname}/public`)); // Middleware to serve static files from the 'public' directory
 
 app.use((req, res, next) => {
     console.log('Hello from the middleware 👋')
