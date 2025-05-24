@@ -79,6 +79,28 @@ app.post('/api/v1/tours', (req, res) => {
     // res.send('Done'); //we always need to send back something in order to finish request-response cycle.
 });
 
+app.patch('/api/v1/tours/:id', (req, res) => {
+    const id = req.params.id * 1; // convert the string to a number
+    if(id > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    const tour = tours.find(tour => tour.id === id); // find the tour with the given id
+    const updatedTour = Object.assign(tour, req.body); // update the tour with the body of the request
+
+    fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour: updatedTour,
+            }
+        });
+    });
+});
+
 
 
 const port = 3000;
