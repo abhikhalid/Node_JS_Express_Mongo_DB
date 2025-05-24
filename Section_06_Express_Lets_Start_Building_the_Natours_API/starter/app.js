@@ -9,6 +9,16 @@ const app = express();
 
 app.use(express.json()); // Middleware to parse JSON data
 
+app.use((req, res, next) => { 
+    console.log('Hello from the middleware 👋')
+    next(); // call next() to pass control to the next middleware function in the stack
+});
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString(); // add a new property to the request object
+    next();
+});
+
 
 //__dirname => current directory of where this file is located
 const tours = JSON.parse(
@@ -19,6 +29,7 @@ const tours = JSON.parse(
 const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
+        requestedAt: req.requestTime, // we added this property in the middleware above
         results: tours.length,
         data: {
             tours: tours,
@@ -125,6 +136,12 @@ app.route('/api/v1/tours')
     .get(getAllTours)
     .post(createTour);
 
+    
+// app.use((req, res, next) => {
+//     console.log('Hello from the middleware 👋')
+//     next(); // call next() to pass control to the next middleware function in the stack
+//     });
+
 app.route('/api/v1/tours/:id')
     .get(getTour)
     .patch(updateTour)
@@ -136,3 +153,5 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`App running on port ${port}...`);
 });
+
+
