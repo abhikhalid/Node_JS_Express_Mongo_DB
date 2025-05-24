@@ -4,6 +4,7 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+//middleware
 exports.checkID = (req, res, next, val) => {
     console.log(`Tour id is: ${val}`); // this will log the id that was passed in the URL
     
@@ -14,6 +15,17 @@ exports.checkID = (req, res, next, val) => {
         });
     }
 
+    next(); // call the next middleware function in the stack
+}
+
+///middleware
+exports.checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Missing name or price'
+        });
+    }
     next(); // call the next middleware function in the stack
 }
 

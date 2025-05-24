@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllTours, createTour, getTour, updateTour, deleteTour, checkID } = require('../controllers/tourController');
+const { getAllTours, createTour, getTour, updateTour, deleteTour, checkID,checkBody } = require('../controllers/tourController');
 const { route } = require('express/lib/application');
 
 
@@ -11,10 +11,16 @@ const router = express.Router(); //We have created router and save into this var
 
 router.param('id', checkID);
 
+
+//Create a checkBody middleware
+//Check if body contains the name and price property
+// If not, send a 400 response (bad request)
+// Add it to the post handler stack
+
 router
     .route('/')
     .get(getAllTours)
-    .post(createTour);
+    .post(checkBody,createTour);
 
 
 router
