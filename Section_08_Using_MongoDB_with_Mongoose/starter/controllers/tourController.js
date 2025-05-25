@@ -33,38 +33,40 @@ const Tour = require('../models/tourModel');
 //     next(); // call the next middleware function in the stack
 // }
 
-exports.getAllTours = (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        requestedAt: req.requestTime, // we added this property in the middleware above
-        // results: tours.length,
-        // data: {
-        //     tours: tours,
-        // }
-    });
+exports.getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find(); // find all tours using the Tour model
+        res.status(200).json({
+            status: 'success',
+            results: tours.length, // return the number of tours found
+            data: {
+                tours: tours // return the tours found
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err // return the error message
+        });
+    }
 };
 
-exports.getTour = (req, res) => {
-    console.log(req.params); // req.params is an object that contains the route parameters. In this case, it will contain the id parameter.
+exports.getTour = async (req, res) => {
+    try {
+        const tour = await Tour.findById(req.params.id); // find a tour by id using the Tour model
 
-    // const id = req.params.id * 1; // convert the string to a number
-
-    // if (id > tours.length) {
-    //     return res.status(404).json({
-    //         status: 'fail',
-    //         message: 'Invalid ID'
-    //     });
-    // }
-
-
-    // const tour = tours.find(tour => tour.id === +req.params.id); // find the tour with the given id
-
-    // res.status(200).json({
-    //     status: 'success',
-    //     data: {
-    //         tour: tour // +req.params.id converts the string to a number
-    //     }
-    // });
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour: tour // return the tour found
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err // return the error message
+        });
+    }
 };
 
 exports.updateTour = (req, res) => {
