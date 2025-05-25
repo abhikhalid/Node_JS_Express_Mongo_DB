@@ -20,7 +20,8 @@ const router = express.Router(); //We have created router and save into this var
 router
     .route('/')
     .get(getAllTours)
-    .post(checkBody, createTour);
+    // .post(checkBody, createTour);
+    .post(createTour);
 
 
 router

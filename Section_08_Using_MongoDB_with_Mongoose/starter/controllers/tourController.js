@@ -20,16 +20,18 @@ const Tour = require('../models/tourModel');
 //     next(); // call the next middleware function in the stack
 // }
 
+//Now our mongoose model will handle the validation of the id, so we don't need this middleware anymore.
 ///middleware
-exports.checkBody = (req, res, next) => {
-    if (!req.body.name || !req.body.price) {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Missing name or price'
-        });
-    }
-    next(); // call the next middleware function in the stack
-}
+
+// exports.checkBody = (req, res, next) => {
+//     if (!req.body.name || !req.body.price) {
+//         return res.status(400).json({
+//             status: 'fail',
+//             message: 'Missing name or price'
+//         });
+//     }
+//     next(); // call the next middleware function in the stack
+// }
 
 exports.getAllTours = (req, res) => {
     res.status(200).json({
@@ -69,8 +71,22 @@ exports.updateTour = (req, res) => {
 
 };
 
-exports.createTour = (req, res) => {
-
+exports.createTour = async (req, res) => {
+    try {
+        const newTour = await Tour.create(req.body); // create a new tour using the Tour model
+        res.status(201).json({
+            status: 'success',
+            data: {
+                tour: newTour // return the newly created tour
+            }
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err.message // return the error message
+        });
+    }
 };
 
 exports.deleteTour = (req, res) => {
