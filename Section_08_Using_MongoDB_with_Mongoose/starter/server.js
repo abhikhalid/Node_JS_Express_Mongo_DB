@@ -45,6 +45,26 @@ const tourSchema = new mongoose.Schema({
 //model is a class that we can use to create and read documents from the collection
 const Tour = mongoose.model("Tour", tourSchema);
 
+//Creating Documents (Behind the scene, this is using js function constructor or js es6 to create an object)
+// const testTour = new Tour({
+//     name: "The Park Camper",
+//     rating: 4.7,
+//     price: 997,
+// });
+
+const testTour = new Tour({
+    name: "Gulshan",
+    price: 997,
+});
+
+testTour.save()
+    .then((doc) => {
+        console.log(doc);
+    })
+    .catch((err) => {
+        console.log("Error: ", err);
+    });
+
 // console.log(process.env);
 
 //4) START SERVER
