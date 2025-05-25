@@ -109,6 +109,17 @@ exports.createTour = async (req, res) => {
     }
 };
 
-exports.deleteTour = (req, res) => {
-
+exports.deleteTour = async (req, res) => {
+    try {
+        await Tour.findByIdAndDelete(req.params.id); // delete a tour by id using the Tour model
+        res.status(204).json({
+            status: 'success',
+            data: null // no content to return (In a restful API, a 204 status code indicates that the request was successful but there is no content to return)
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err // return the error message
+        });
+    }
 };
