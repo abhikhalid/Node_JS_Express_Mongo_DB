@@ -3,10 +3,12 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const Tour = require("./models/tourModel");
 
-const app = require("./app");
-
 // console.log(app.get('env'));
 dotenv.config({ path: "./config.env" }); //read environment variables from config.env file and save them into node js environment variable
+
+const app = require("./app");
+
+
 
 const DB = process.env.DATABASE.replace(
     "<PASSWORD>",
