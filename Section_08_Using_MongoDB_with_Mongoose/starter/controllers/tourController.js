@@ -73,6 +73,22 @@ exports.getAllTours = async (req, res) => {
             query = query.select('-__v'); // exclude the __v field from the response
         }
 
+        //4) Pagination
+
+        // page=2&limit=10, 1-10, page 1, 11-20, page 2, 21-30, page 3
+        // query = query.skip(2).limit(10); // skip the first 2 documents and limit the response to 10 documents
+
+        const page = req.query.page * 1 || 1; // get the page number from the query or default to 1
+        const limit = req.query.limit * 1 || 100; // get the limit from the query or default to 100
+        const skip = (page - 1) * limit; // calculate the number of documents to skip based on the page number and limit
+        query = query.skip(skip).limit(limit); // skip the documents and limit the response to the specified number of documents
+
+        if (req.query.page) {
+            const numTours = await Tour.countDocuments(); // get the total number of tours in the database
+            if (skip >= numTours) throw new Error('This page does not exist'); // if the number of documents to skip is greater than the total number of tours, throw an error
+        }
+
+
         //EXECUTE QUERY
         const tours = await query; // execute the query and get the tours
 
