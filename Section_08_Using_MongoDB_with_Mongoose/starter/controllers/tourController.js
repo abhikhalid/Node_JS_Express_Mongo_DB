@@ -69,8 +69,26 @@ exports.getTour = async (req, res) => {
     }
 };
 
-exports.updateTour = (req, res) => {
+exports.updateTour = async (req, res) => {
+    try {
+        const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+            new: true, // return the updated document
+            runValidators: true // run the validators defined in the model
+        });
 
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour: tour // return the updated tour
+            }
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err.message // return the error message
+        });
+    }
 };
 
 exports.createTour = async (req, res) => {
